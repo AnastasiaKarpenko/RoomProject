@@ -5,7 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.karpena2.roomproject.database.Album;
 import com.example.karpena2.roomproject.database.MusicDao;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private Button mAddBtn;
@@ -20,13 +24,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MusicDao musicDao = ((AppDelegate) getApplicationContext()).getMusicDatabase().getMusicDao();
+        final MusicDao musicDao = ((AppDelegate) getApplicationContext()).getMusicDatabase().getMusicDao();
 
         mAddBtn = findViewById(R.id.add);
         mAddBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                musicDao.insertAlbums(createAlbums());
             }
         });
 
@@ -34,4 +38,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+
+    private List<Album> createAlbums() {
+        List<Album> albums = new ArrayList<>(10);
+        for (int i = 0; i < 10; i++) {
+            albums.add(new Album(i, "album " + i, "release " + System.currentTimeMillis()));
+        }
+        return albums;
+    }
+
+
 }
