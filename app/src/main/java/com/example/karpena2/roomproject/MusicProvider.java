@@ -2,6 +2,7 @@ package com.example.karpena2.roomproject;
 
 import android.arch.persistence.room.Room;
 import android.content.ContentProvider;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.UriMatcher;
 import android.database.Cursor;
@@ -22,7 +23,7 @@ public class MusicProvider extends ContentProvider {
 
     static {
         URI_MATCHER.addURI(AUTHORITY, TABLE_ALBUM, ALBUM_TABLE_CODE);
-        URI_MATCHER.addURI(AUTHORITY, TABLE_ALBUM + "/*", ALBUM_ROW_CODE;
+        URI_MATCHER.addURI(AUTHORITY, TABLE_ALBUM + "/*", ALBUM_ROW_CODE);
     }
 
     private MusicDao mMusicDao;
@@ -58,7 +59,20 @@ public class MusicProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs, String sortOrder) {
+        int code = URI_MATCHER.match(uri);
 
+        if (code != ALBUM_ROW_CODE && code != ALBUM_TABLE_CODE) {
+            return null;
+        }
+
+        Cursor cursor;
+
+        if (code == ALBUM_TABLE_CODE) {
+            cursor = mMusicDao.getAlbumsCursor();
+        } else {
+            cursor = mMusicDao.getAlbumWithIdCursor((int) ContentUris.parseId(uri));
+        }
+        return cursor;
     }
 
     @Override
