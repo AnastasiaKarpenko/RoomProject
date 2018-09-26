@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<Cursor> onCreateLoader(int i, @Nullable Bundle bundle) {
         return new CursorLoader(this,
-                Uri.parse("content//com.example.karpena2.roomproject.musicprovider/album"),
+                Uri.parse("content//com.example.karpena2.roomproject.musicprovider.album"),
                 null,
                 null,
                 null,
