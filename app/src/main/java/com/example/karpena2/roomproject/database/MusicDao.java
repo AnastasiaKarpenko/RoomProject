@@ -5,6 +5,7 @@ import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
 import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
+import android.database.Cursor;
 
 import java.util.List;
 
@@ -22,6 +23,12 @@ public interface MusicDao {
 
     @Query("select * from album")
     List<Album> getAlbums();
+
+    @Query("select * from album")
+    Cursor getAlbumsCursor();
+
+    @Query("select * from album where id = :albumId")
+    Cursor getAlbumWithIdCursor(int albumId);
 
     @Query("select * from song")
     List<Song> getSongs();
