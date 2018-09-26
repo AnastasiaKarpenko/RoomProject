@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     // add Room database to the project | done
     // insert/read data to/from database | done
-    // add Content Provider to Room
+    // add Content Provider to Room | done
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
