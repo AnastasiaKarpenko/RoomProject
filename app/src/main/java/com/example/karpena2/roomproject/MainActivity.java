@@ -16,8 +16,8 @@ public class MainActivity extends AppCompatActivity {
     private Button mAddBtn;
     private Button mGetBtn;
 
-    // add Room database to the project
-    // insert/read data to/from database
+    // add Room database to the project | done
+    // insert/read data to/from database | done
     // add Content Provider to Room
 
     @Override
