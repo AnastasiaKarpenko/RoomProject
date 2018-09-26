@@ -14,6 +14,7 @@ public class AppDelegate extends Application {
         super.onCreate();
 
         mMusicDatabase = Room.databaseBuilder(getApplicationContext(), MusicDatabase.class, "music_database")
+                .allowMainThreadQueries()
                 .build();
 
     }
