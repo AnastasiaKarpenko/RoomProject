@@ -1,6 +1,13 @@
 package com.example.karpena2.roomproject;
 
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +19,7 @@ import com.example.karpena2.roomproject.database.MusicDao;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private Button mAddBtn;
     private Button mGetBtn;
 
@@ -39,11 +46,16 @@ public class MainActivity extends AppCompatActivity {
         mGetBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showToast(musicDao.getAlbums());
+//                showToast(musicDao.getAlbums());
+                initLoader();
             }
         });
 
 
+    }
+
+    private void initLoader() {
+        getSupportLoaderManager().initLoader(123, null, this).forceLoad();
     }
 
     private List<Album> createAlbums() {
@@ -64,4 +76,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int i, @Nullable Bundle bundle) {
+        return new CursorLoader(this,
+                Uri.parse("content//com.example.karpena2.roomproject.musicprovider/album"),
+                null,
+                null,
+                null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor cursor) {
+        if (cursor != null && cursor.moveToFirst()) {
+            StringBuilder builder = new StringBuilder();
+
+            do {
+                builder.append(cursor.getString(cursor.getColumnIndex("name"))).append("/n");
+            } while (cursor.moveToNext());
+            Toast.makeText(this, builder.toString(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+
+    }
 }
